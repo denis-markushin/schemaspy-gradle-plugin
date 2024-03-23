@@ -14,3 +14,7 @@ versionCheck = { id = "com.github.ben-manes.versions", version.ref = "versionChe
 
 [libraries]
 junit = "junit:junit:4.13.2"
+postgresTestcontainers = "org.testcontainers:postgresql:1.19.7"
+liquibase = "org.liquibase:liquibase-core:4.26.0"
+postgresDriver = "org.postgresql:postgresql:42.7.3"
+jarchivelib = "org.rauschig:jarchivelib:1.2.0"

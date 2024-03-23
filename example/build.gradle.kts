@@ -1,8 +1,8 @@
 plugins {
     java
-    id("com.ncorti.kotlin.gradle.template.plugin")
+    id("org.dema.gradle.schemaspy.plugin")
 }
 
-templateExampleConfig {
-    message.set("Just trying this gradle plugin...")
+schemaspyConfig {
+    dbName = "tickets"
 }

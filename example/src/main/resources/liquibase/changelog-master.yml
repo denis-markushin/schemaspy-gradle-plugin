@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: scripts/161020231700-init-schema.sql
+  - include:
+      file: scripts/171120231600-add-not-null-constraints.sql
+  - include:
+      file: scripts/090120231600-add-assignee-id-column.sql
+  - include:
+      file: scripts/130220241920-update-spam-tickets.sql
+  - include:
+      file: scripts/150220241900-add-unique-constraint.sql

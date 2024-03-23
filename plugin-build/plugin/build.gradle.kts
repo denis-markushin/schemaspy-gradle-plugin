@@ -9,18 +9,23 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
+    implementation(libs.postgresTestcontainers)
+    implementation(libs.liquibase)
+    implementation(libs.jarchivelib)
+
+    runtimeOnly(libs.postgresDriver)
 
     testImplementation(libs.junit)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 

@@ -31,6 +31,6 @@ gradleEnterprise {
     }
 }
 
-rootProject.name = ("com.ncorti.kotlin.gradle.template")
+rootProject.name = ("org.dema.gradle.schemaspy")
 
 include(":plugin")

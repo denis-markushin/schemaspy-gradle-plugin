@@ -48,7 +48,7 @@ abstract class SchemaspyTask : DefaultTask() {
     abstract val outputDir: DirectoryProperty
 
     @TaskAction
-    fun sampleAction() {
+    fun generateDocs() {
         val postgresContainer =
             PostgreSQLContainer<Nothing>(POSTGRES_IMAGE).apply {
                 withNetworkAliases("postgres")
@@ -72,49 +72,7 @@ abstract class SchemaspyTask : DefaultTask() {
                 liquibase.update()
             }
 
-            GenericContainer<Nothing>(SCHEMASPY_IMAGE).apply {
-                withNetworkAliases("schemaspy")
-                withNetwork(localNetwork)
-                withCreateContainerCmdModifier { it.withEntrypoint("") }
-                withCommand("sleep 300000")
-            }.use { schemaSpy ->
-                schemaSpy.start()
-                val generateDocCommand =
-                    schemaSpy.execInContainer(
-                        "java",
-                        "-jar",
-                        "/schemaspy-6.1.0.jar",
-                        "-t",
-                        "pgsql11",
-                        "-db",
-                        postgresContainer.databaseName,
-                        "-host",
-                        "postgres",
-                        "-u",
-                        postgresContainer.username,
-                        "-p",
-                        postgresContainer.password,
-                        "-o",
-                        "/output",
-                        "-dp",
-                        "/drivers_inc",
-                        "-I",
-                        excludeTables.get(),
-                        "-debug",
-                    )
-
-                if (generateDocCommand.exitCode != 0) {
-                    fail("Output: [${generateDocCommand.stdout}], error: [${generateDocCommand.stderr}]")
-                }
-
-                schemaSpy.execInContainer("tar", "-czvf", "/output/output.tar.gz", "/output")
-
-                logger.lifecycle("outputDirectory is: ${outputDir.get()}")
-                schemaSpy.copyFileFromContainer(
-                    "/output/output.tar.gz",
-                    "${outputDir.get()}/output.tar.gz",
-                )
-            }
+            startSchemaspyContainerAndGenerate(postgresContainer)
         }
 
         val archiver = ArchiverFactory.createArchiver("tar", "gz")
@@ -130,4 +88,50 @@ abstract class SchemaspyTask : DefaultTask() {
     private fun Connection.database(): Database? =
         DatabaseFactory.getInstance()
             .findCorrectDatabaseImplementation(JdbcConnection(this))
+
+    private fun startSchemaspyContainerAndGenerate(postgresContainer: PostgreSQLContainer<Nothing>) {
+        GenericContainer<Nothing>(SCHEMASPY_IMAGE).apply {
+            withNetworkAliases("schemaspy")
+            withNetwork(localNetwork)
+            withCreateContainerCmdModifier { it.withEntrypoint("") }
+            withCommand("sleep 300000")
+        }.use { schemaSpy ->
+            schemaSpy.start()
+            val generateDocCommand =
+                schemaSpy.execInContainer(
+                    "java",
+                    "-jar",
+                    "/schemaspy-6.1.0.jar",
+                    "-t",
+                    "pgsql11",
+                    "-db",
+                    postgresContainer.databaseName,
+                    "-host",
+                    "postgres",
+                    "-u",
+                    postgresContainer.username,
+                    "-p",
+                    postgresContainer.password,
+                    "-o",
+                    "/output",
+                    "-dp",
+                    "/drivers_inc",
+                    "-I",
+                    excludeTables.get(),
+                    "-debug",
+                )
+
+            if (generateDocCommand.exitCode != 0) {
+                fail("Output: [${generateDocCommand.stdout}], error: [${generateDocCommand.stderr}]")
+            }
+
+            schemaSpy.execInContainer("tar", "-czvf", "/output/output.tar.gz", "/output")
+
+            logger.lifecycle("outputDirectory is: ${outputDir.get()}")
+            schemaSpy.copyFileFromContainer(
+                "/output/output.tar.gz",
+                "${outputDir.get()}/output.tar.gz",
+            )
+        }
+    }
 }

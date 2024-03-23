@@ -11,7 +11,7 @@ class SchemaspyPluginTest {
         val project = ProjectBuilder.builder().build()
         project.pluginManager.apply("org.dema.gradle.schemaspy.plugin")
 
-        assert(project.tasks.getByName("schemaspy") is SchemaspyTask)
+        assert(project.tasks.getByName("generateSchemaspyDocs") is SchemaspyTask)
     }
 
     @Test
@@ -31,7 +31,7 @@ class SchemaspyPluginTest {
             excludeTables.set("table_to_exclude")
         }
 
-        val task = project.tasks.getByName("schemaspy") as SchemaspyTask
+        val task = project.tasks.getByName("generateSchemaspyDocs") as SchemaspyTask
 
         assertEquals("test_db_name", task.dbName.get())
         assertEquals("table_to_exclude", task.excludeTables.get())

@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 private const val EXTENSION_NAME = "schemaspyConfig"
-private const val TASK_NAME = "schemaspy"
+private const val TASK_NAME = "generateSchemaspyDocs"
 
 abstract class SchemaspyPlugin : Plugin<Project> {
     override fun apply(project: Project) {

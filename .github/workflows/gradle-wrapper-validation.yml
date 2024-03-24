@@ -16,4 +16,12 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v2
-      
+
+      # We do a run of the new task `templateExample` created by the plugin
+      - name: Run the plugin
+        run: ./gradlew generateSchemaspyDocs
+        if: success()
+        # And we verify that the output of the file is correct.
+      - name: Verify the plugin output
+        run: grep -Fxq "[CI] Test Run" ./example/build/schemaspy/output/index.html
+        if: success()

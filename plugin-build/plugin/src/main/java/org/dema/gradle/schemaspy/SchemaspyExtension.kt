@@ -22,6 +22,20 @@ abstract class SchemaspyExtension
         val liquibaseChangelog: RegularFileProperty = objects.fileProperty()
 
         /**
+         * Postgres image which is used for docs generation. Default value is: **postgres:13.5-alpine**
+         */
+        val postgresDockerImage: Property<String> =
+            objects.property(String::class.java)
+                .convention("postgres:13.5-alpine")
+
+        /**
+         * SchemaSpy image which is used for docs generation. Default value is: **schemaspy/schemaspy:6.1.0**
+         */
+        val schemaspyDockerImage: Property<String> =
+            objects.property(String::class.java)
+                .convention("schemaspy/schemaspy:6.1.0")
+
+        /**
          * Exclude tables regex. Default value is: "(databasechangeloglock|databasechangelog)"
          */
         val excludeTables: Property<String> =

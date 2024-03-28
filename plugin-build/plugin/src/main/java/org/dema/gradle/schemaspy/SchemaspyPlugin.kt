@@ -16,6 +16,8 @@ abstract class SchemaspyPlugin : Plugin<Project> {
             it.dbName.set(extension.dbName)
             it.liquibaseChangelog.set(extension.liquibaseChangelog)
             it.excludeTables.set(extension.excludeTables)
+            it.postgresDockerImage.set(extension.postgresDockerImage)
+            it.schemaspyDockerImage.set(extension.schemaspyDockerImage)
             it.outputDir.set(outputDir)
         }
     }

@@ -12,6 +12,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.rauschig.jarchivelib.ArchiverFactory
@@ -23,10 +24,6 @@ import java.sql.Connection
 
 abstract class SchemaspyTask : DefaultTask() {
     private companion object {
-        const val DEFAULT_POSTGRES_IMAGE_NAME = "postgres:13.5-alpine"
-        val POSTGRES_IMAGE = DockerImageName.parse(DEFAULT_POSTGRES_IMAGE_NAME).asCompatibleSubstituteFor("postgres")
-        const val SCHEMASPY_IMAGE_NAME = "schemaspy/schemaspy:6.1.0"
-        val SCHEMASPY_IMAGE = DockerImageName.parse(SCHEMASPY_IMAGE_NAME)
         var localNetwork = Network.newNetwork()
     }
 
@@ -44,13 +41,27 @@ abstract class SchemaspyTask : DefaultTask() {
     @get:Input
     abstract val excludeTables: Property<String>
 
+    @get:Input
+    @get:Optional
+    abstract val postgresDockerImage: Property<String>
+
+    @get:Input
+    @get:Optional
+    abstract val schemaspyDockerImage: Property<String>
+
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
+
+    private val postgresImage by lazy {
+        DockerImageName.parse(postgresDockerImage.get()).asCompatibleSubstituteFor("postgres")
+    }
+
+    private val schemaspyImage by lazy { DockerImageName.parse(schemaspyDockerImage.get()) }
 
     @TaskAction
     fun generateDocs() {
         val postgresContainer =
-            PostgreSQLContainer<Nothing>(POSTGRES_IMAGE).apply {
+            PostgreSQLContainer<Nothing>(postgresImage).apply {
                 withNetworkAliases("postgres")
                 withNetwork(localNetwork)
                 withDatabaseName(dbName.get())
@@ -90,7 +101,7 @@ abstract class SchemaspyTask : DefaultTask() {
             .findCorrectDatabaseImplementation(JdbcConnection(this))
 
     private fun startSchemaspyContainerAndGenerate(postgresContainer: PostgreSQLContainer<Nothing>) {
-        GenericContainer<Nothing>(SCHEMASPY_IMAGE).apply {
+        GenericContainer<Nothing>(schemaspyImage).apply {
             withNetworkAliases("schemaspy")
             withNetwork(localNetwork)
             withCreateContainerCmdModifier { it.withEntrypoint("") }

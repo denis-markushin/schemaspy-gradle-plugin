@@ -27,4 +27,5 @@ Feel free to open a issue or submit a pull request for any bugs/improvements.
 
 ## License 📄
 
-This project is licensed under the MIT License - see the [License](https://github.com/denis-markushin/schemaspy-gradle-plugin/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see
+the [License](https://github.com/denis-markushin/schemaspy-gradle-plugin/blob/main/LICENSE) file for details.

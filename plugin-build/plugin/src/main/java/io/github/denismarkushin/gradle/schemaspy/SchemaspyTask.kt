@@ -1,4 +1,4 @@
-package org.dema.gradle.schemaspy
+package io.github.denismarkushin.gradle.schemaspy
 
 import junit.framework.TestCase.fail
 import liquibase.Liquibase

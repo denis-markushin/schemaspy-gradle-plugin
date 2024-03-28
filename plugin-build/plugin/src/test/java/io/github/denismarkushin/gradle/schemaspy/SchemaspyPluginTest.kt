@@ -1,4 +1,4 @@
-package org.dema.gradle.schemaspy
+package io.github.denismarkushin.gradle.schemaspy
 
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Assert.assertEquals
@@ -9,7 +9,7 @@ class SchemaspyPluginTest {
     @Test
     fun `plugin is applied correctly to the project`() {
         val project = ProjectBuilder.builder().build()
-        project.pluginManager.apply("org.dema.gradle.schemaspy.plugin")
+        project.pluginManager.apply("io.github.denis-markushin.schemaspy-plugin")
 
         assert(project.tasks.getByName("generateSchemaspyDocs") is SchemaspyTask)
     }
@@ -17,7 +17,7 @@ class SchemaspyPluginTest {
     @Test
     fun `extension templateExampleConfig is created correctly`() {
         val project = ProjectBuilder.builder().build()
-        project.pluginManager.apply("org.dema.gradle.schemaspy.plugin")
+        project.pluginManager.apply("io.github.denis-markushin.schemaspy-plugin")
 
         assertNotNull(project.extensions.getByName("schemaspyConfig"))
     }
@@ -25,7 +25,7 @@ class SchemaspyPluginTest {
     @Test
     fun `parameters are passed correctly from extension to task`() {
         val project = ProjectBuilder.builder().build()
-        project.pluginManager.apply("org.dema.gradle.schemaspy.plugin")
+        project.pluginManager.apply("io.github.denis-markushin.schemaspy-plugin")
         (project.extensions.getByName("schemaspyConfig") as SchemaspyExtension).apply {
             dbName.set("test_db_name")
             excludeTables.set("table_to_exclude")

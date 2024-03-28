@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.dema.gradle.schemaspy.plugin")
+    id("io.github.denis-markushin.schemaspy-plugin")
 }
 
 schemaspyConfig {

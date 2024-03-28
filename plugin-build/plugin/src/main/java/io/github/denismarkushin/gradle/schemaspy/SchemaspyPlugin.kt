@@ -1,4 +1,4 @@
-package org.dema.gradle.schemaspy
+package io.github.denismarkushin.gradle.schemaspy
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

@@ -7,7 +7,7 @@ and [Testcontainers](https://testcontainers.com)
 
 1. Add dependency:
    ```kotlin
-   id("org.dema.gradle.schemaspy.plugin")
+   id("io.github.denis-markushin.schemaspy-plugin")
    ```
 2. Configure the plugin using extension.
    ```kotlin

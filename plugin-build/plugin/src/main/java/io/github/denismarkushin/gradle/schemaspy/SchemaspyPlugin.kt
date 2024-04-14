@@ -19,6 +19,7 @@ abstract class SchemaspyPlugin : Plugin<Project> {
             it.postgresDockerImage.set(extension.postgresDockerImage)
             it.schemaspyDockerImage.set(extension.schemaspyDockerImage)
             it.outputDir.set(outputDir)
+            it.unzipOutput.set(extension.unzipOutput)
         }
     }
 }

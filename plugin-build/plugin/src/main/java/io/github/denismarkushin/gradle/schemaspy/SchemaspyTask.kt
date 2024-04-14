@@ -24,7 +24,7 @@ import java.sql.Connection
 
 abstract class SchemaspyTask : DefaultTask() {
     private companion object {
-        var localNetwork = Network.newNetwork()
+        var localNetwork: Network = Network.newNetwork()
     }
 
     init {
@@ -48,6 +48,10 @@ abstract class SchemaspyTask : DefaultTask() {
     @get:Input
     @get:Optional
     abstract val schemaspyDockerImage: Property<String>
+
+    @get:Input
+    @get:Optional
+    abstract val unzipOutput: Property<Boolean>
 
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
@@ -83,24 +87,19 @@ abstract class SchemaspyTask : DefaultTask() {
                 liquibase.update()
             }
 
-            startSchemaspyContainerAndGenerate(postgresContainer)
+            startSchemaspyContainerAndRunGenerate(postgresContainer)
         }
 
-        val archiver = ArchiverFactory.createArchiver("tar", "gz")
-        val outputArchive = outputDir.get().file("output.tar.gz").asFile
-
-        archiver.extract(
-            outputArchive,
-            outputDir.get().asFile,
-        )
-        outputArchive.delete()
+        if (unzipOutput.get()) {
+            unzipOutput()
+        }
     }
 
     private fun Connection.database(): Database? =
         DatabaseFactory.getInstance()
             .findCorrectDatabaseImplementation(JdbcConnection(this))
 
-    private fun startSchemaspyContainerAndGenerate(postgresContainer: PostgreSQLContainer<Nothing>) {
+    private fun startSchemaspyContainerAndRunGenerate(postgresContainer: PostgreSQLContainer<Nothing>) {
         GenericContainer<Nothing>(schemaspyImage).apply {
             withNetworkAliases("schemaspy")
             withNetwork(localNetwork)
@@ -144,5 +143,13 @@ abstract class SchemaspyTask : DefaultTask() {
                 "${outputDir.get()}/output.tar.gz",
             )
         }
+    }
+
+    private fun unzipOutput() {
+        val archiver = ArchiverFactory.createArchiver("tar", "gz")
+        val outputArchive = outputDir.get().file("output.tar.gz").asFile
+
+        archiver.extract(outputArchive, outputDir.get().asFile)
+        outputArchive.delete()
     }
 }

@@ -41,4 +41,9 @@ abstract class SchemaspyExtension
         val excludeTables: Property<String> =
             objects.property(String::class.java)
                 .convention("(databasechangeloglock|databasechangelog)")
+
+        /**
+         * Should unzip output or not. Default value is: true
+         */
+        val unzipOutput: Property<Boolean> = objects.property(Boolean::class.java).convention(true)
     }

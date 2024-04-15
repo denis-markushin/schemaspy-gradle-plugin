@@ -4,6 +4,6 @@ plugins {
 }
 
 schemaspyConfig {
-    dbName = "tickets"
-    liquibaseChangelog = file("${project.projectDir}/src/main/resources/liquibase/changelog-master.yml")
+    dbName = "sakila"
+    liquibaseChangelog = file("${project.projectDir}/src/main/resources/liquibase/changelog.yml")
 }

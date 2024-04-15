@@ -25,4 +25,4 @@ jobs:
       - name: "Check file existence"
         uses: andstor/file-existence-action@v3
         with:
-          files: "./example/build/schemaspy/output/index.html"
+          files: "./example/build/schemaspy/sakila/index.html"

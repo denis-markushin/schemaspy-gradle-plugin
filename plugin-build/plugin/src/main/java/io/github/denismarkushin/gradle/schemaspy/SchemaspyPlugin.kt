@@ -17,7 +17,7 @@ abstract class SchemaspyPlugin : Plugin<Project> {
             it.excludeTables.set(extension.excludeTables)
             it.postgresDockerImage.set(extension.postgresDockerImage)
             it.schemaspyDockerImage.set(extension.schemaspyDockerImage)
-            it.outputDir.set(project.schemaSpyOutputDir().dir(extension.dbName.get()))
+            it.outputDir.set(project.schemaSpyOutputDir().dir(it.dbName))
             it.unzipOutput.set(extension.unzipOutput)
         }
     }

@@ -19,11 +19,11 @@ and [Testcontainers](https://testcontainers.com)
    ```
 3. Execute gradle `generateSchemaspyDocs` task:
    `gradle generateSchemaspyDocs`
-4. Get output in gradle `build/schemaspy/output` folder. That`s it!
+4. Get output in gradle `build/schemaspy/db/output` folder. That`s it!
 
 ## Contributing 🤝
 
-Feel free to open a issue or submit a pull request for any bugs/improvements.
+Feel free to open an issue or submit a pull request for any bugs/improvements.
 
 ## License 📄
 

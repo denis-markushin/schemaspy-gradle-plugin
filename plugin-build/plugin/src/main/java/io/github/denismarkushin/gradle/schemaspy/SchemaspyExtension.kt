@@ -1,6 +1,7 @@
 package io.github.denismarkushin.gradle.schemaspy
 
 import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
@@ -46,4 +47,9 @@ abstract class SchemaspyExtension
          * Should unzip output or not. Default value is: true
          */
         val unzipOutput: Property<Boolean> = objects.property(Boolean::class.java).convention(true)
+
+        /**
+         * Target directory for output
+         */
+        val outputDir: DirectoryProperty = objects.directoryProperty()
     }

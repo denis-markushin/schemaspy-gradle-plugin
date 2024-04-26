@@ -6,4 +6,5 @@ plugins {
 schemaspyConfig {
     dbName = "sakila"
     liquibaseChangelog = file("${project.projectDir}/src/main/resources/liquibase/changelog.yml")
+    outputDir = project.layout.buildDirectory.dir("schemaspy/sakila").get()
 }

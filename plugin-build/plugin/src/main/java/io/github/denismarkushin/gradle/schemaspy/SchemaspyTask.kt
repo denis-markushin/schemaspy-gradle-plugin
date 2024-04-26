@@ -54,6 +54,7 @@ abstract class SchemaspyTask : DefaultTask() {
     abstract val unzipOutput: Property<Boolean>
 
     @get:OutputDirectory
+    @get:Optional
     abstract val outputDir: DirectoryProperty
 
     private val postgresImage by lazy {

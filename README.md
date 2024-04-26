@@ -15,6 +15,7 @@ and [Testcontainers](https://testcontainers.com)
        dbName = "my_database"
        liquibaseChangelog = file("/path/to/file.yml")
        excludeTables = "(table1|table2)"
+       outputDir = project.layout.buildDirectory.dir("schemaspy/sakila").get()
    }
    ```
 3. Execute gradle `generateSchemaspyDocs` task:

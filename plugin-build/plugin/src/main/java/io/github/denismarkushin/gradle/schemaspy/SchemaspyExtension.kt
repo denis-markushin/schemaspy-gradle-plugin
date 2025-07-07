@@ -34,7 +34,7 @@ abstract class SchemaspyExtension
          */
         val schemaspyDockerImage: Property<String> =
             objects.property(String::class.java)
-                .convention("schemaspy/schemaspy:6.1.0")
+                .convention("schemaspy/schemaspy:7.0.2")
 
         /**
          * Exclude tables regex. Default value is: "(databasechangeloglock|databasechangelog)"

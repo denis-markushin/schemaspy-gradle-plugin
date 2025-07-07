@@ -112,7 +112,7 @@ abstract class SchemaspyTask : DefaultTask() {
                 schemaSpy.execInContainer(
                     "java",
                     "-jar",
-                    "/schemaspy-6.1.0.jar",
+                    "/schemaspy-7.0.2.jar",
                     "-t",
                     "pgsql11",
                     "-db",
